@@ -1,5 +1,6 @@
 import asyncio
 import time
+from turtle import Screen
 
 import requests
 import speech_recognition
@@ -9,7 +10,8 @@ import os
 from pynput.keyboard import Key, Controller
 from pathlib import Path
 
-from gpt import create_gpt_promt
+from draw import draw_sierpinski
+from gpt import create_gpt_promt, write_something_to_file
 
 
 def download_random_cat_image():
@@ -68,6 +70,10 @@ def write_something(value: str):
     keyboard.release(Key.ctrl)
 
 
+def run_draw_sierpinski():
+    draw_sierpinski()  # Запускаем функцию рисования
+
+
 # Вызов функции
 sr = speech_recognition.Recognizer()
 # sr.pause_threshold = 0.5
@@ -108,8 +114,12 @@ with speech_recognition.Microphone() as mic:
                 audio = AudioSegment.from_wav("sounds\Запрос выполнен сэр.wav")
             elif query == "напиши":
                 result = asyncio.get_event_loop().run_until_complete(create_gpt_promt(
-                    "напиши пузырьковую сортироку на python"))
-                write_something(result)
+                    "напиши какой-то сложный алгоритм на python. Не пиши установочные библиотеки"))
+                print(result)
+                write_something_to_file(result)
+            elif query == "нарисуй":
+                print("Запустите файл draw.py")
+                audio = AudioSegment.from_wav("sounds\Запрос выполнен сэр.wav")
             else:
                 audio = AudioSegment.from_wav("sounds\Чего вы пытаетесь добиться сэр.wav")
             play(audio)

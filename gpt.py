@@ -92,7 +92,6 @@ def write_something_to_file(value: str):
 
 
 if __name__ == "__main__":
-    time.sleep(2)
     # go_to_start()
     result = asyncio.get_event_loop().run_until_complete(create_gpt_promt(
         "напиши какой-то сложный алгоритм на python. Не пиши установочные библиотеки"))
